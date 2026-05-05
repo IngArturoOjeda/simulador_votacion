@@ -1,0 +1,547 @@
+/* ══════════════════════════════════════════
+   BASE
+══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    background-color: white;
+    font-family: 'Arial Black', Gadget, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════════
+   LANDING
+══════════════════════════════════════════ */
+.pagina-contenedor {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    justify-content: center;
+}
+
+.titulo-superior {
+    color: #2e008b;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.contenido-flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+}
+
+.candidato-seccion {
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+}
+
+.foto-candidato { width: 100%; height: auto; }
+
+.nombre { margin: 10px 0 0 0; font-size: 2rem; color: #4500cc; }
+
+.cargo { margin: 0; color: #555; font-size: 1.5rem; font-weight: bold; }
+
+#contador {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.bloque {
+    background-color: #2e008b;
+    color: white;
+    width: 70px;
+    height: 80px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+#contador span { font-size: 2rem; font-weight: bold; line-height: 1; }
+#contador small { font-size: 0.6rem; }
+
+.boton-votar {
+    display: inline-block;
+    background-color: #2e008b;
+    color: white !important;
+    padding: 15px 30px;
+    margin-top: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 50px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.boton-votar:hover { background-color: #4500cc; transform: scale(1.05); }
+.boton-votar:active { transform: scale(0.95); }
+
+.seccion-derecha {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* ══════════════════════════════════════════
+   SIMULADOR — CONTENEDOR PRINCIPAL
+══════════════════════════════════════════ */
+.sim-container {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(145deg, #0d0035 0%, #2e008b 55%, #3b0099 100%);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    transition: opacity 0.4s ease;
+}
+
+.sim-container.oculto { opacity: 0; pointer-events: none; display: none; }
+.sim-container.entrando { opacity: 1; }
+
+/* ══════════════════════════════════════════
+   BARRA DE PROGRESO
+══════════════════════════════════════════ */
+.sim-barra-progreso {
+    width: 100%;
+    height: 5px;
+    background: rgba(255,255,255,0.15);
+    flex-shrink: 0;
+}
+
+.sim-progreso-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #a78bfa, #fff);
+    width: 0%;
+    transition: width 0.4s ease;
+    border-radius: 0 3px 3px 0;
+}
+
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
+.sim-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    flex-shrink: 0;
+}
+
+.sim-btn-volver {
+    background: rgba(255,255,255,0.12);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-family: 'Arial Black', sans-serif;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    letter-spacing: 0.5px;
+}
+.sim-btn-volver:hover { background: rgba(255,255,255,0.22); }
+
+.sim-badge-candidato {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.68rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.sim-paso-label {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+}
+
+.oculto { display: none !important; }
+
+/* ══════════════════════════════════════════
+   SLIDES WRAPPER
+══════════════════════════════════════════ */
+.sim-slides-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 6px 12px 12px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.sim-slide {
+    display: none;
+    width: 100%;
+    max-width: 560px;
+    animation: slideEntrada 0.3s ease forwards;
+}
+
+.sim-slide.activo {
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes slideEntrada {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════
+   CARD BASE
+══════════════════════════════════════════ */
+.sim-card {
+    background: white;
+    border-radius: 20px;
+    padding: 22px 18px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.45);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Card con imágenes de boleta */
+.ballot-card {
+    padding: 14px 12px;
+    gap: 8px;
+    max-width: 560px;
+}
+
+.sim-card-final {
+    background: linear-gradient(160deg, #2e008b 0%, #1a0052 100%);
+    color: white;
+}
+
+/* ══════════════════════════════════════════
+   ELEMENTOS GENÉRICOS DE SLIDES
+══════════════════════════════════════════ */
+.sim-icono-grande { font-size: 3.2rem; line-height: 1; }
+
+.sim-titulo-hero {
+    font-size: clamp(1.8rem, 7vw, 2.8rem);
+    color: #2e008b;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.sim-card-final .sim-titulo-hero { color: white; }
+
+.sim-titulo {
+    font-size: clamp(1rem, 4vw, 1.45rem);
+    color: #2e008b;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.sim-descripcion {
+    font-family: Arial, sans-serif;
+    font-size: clamp(0.82rem, 2.8vw, 0.95rem);
+    color: #555;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.sim-card-final .sim-descripcion { color: rgba(255,255,255,0.8); }
+
+.sim-instruccion {
+    font-family: Arial, sans-serif;
+    font-size: clamp(0.9rem, 3.2vw, 1.05rem);
+    color: #333;
+    margin: 0;
+}
+
+.sim-instruccion strong { color: #2e008b; }
+
+/* Número de paso */
+.sim-numero-circulo {
+    width: 56px;
+    height: 56px;
+    background: #2e008b;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+/* Badge de cargo */
+.sim-cargo-tag {
+    background: #2e008b;
+    color: white;
+    padding: 5px 16px;
+    border-radius: 30px;
+    font-size: 0.72rem;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.sim-cargo-tag.destacado { background: linear-gradient(135deg, #4500cc, #7b2fff); }
+.sim-cargo-tag.small     { font-size: 0.62rem; letter-spacing: 0.8px; }
+
+/* ══════════════════════════════════════════
+   IMÁGENES DE BOLETA — MACHINE VIEW
+══════════════════════════════════════════ */
+.ballot-bloque {
+    width: 100%;
+}
+
+.ballot-bloque.centrado {
+    display: flex;
+    justify-content: center;
+}
+
+.ballot-screen-label {
+    font-family: Arial, sans-serif;
+    font-size: 0.68rem;
+    color: #999;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+    text-align: left;
+}
+
+/* Imagen completa de la pantalla de la máquina */
+.ballot-img-full {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Foto de la máquina física */
+.ballot-img-maquina {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+/* Imagen de la boleta física */
+.ballot-img-boleta {
+    max-width: 130px;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+/* ══════════════════════════════════════════
+   HIGHLIGHT CSS PARA OPCIÓN 5 (FABIO BÁEZ)
+   Posición calculada sobre opcion_lista_3_junta_itaugua_mayores_g.jpg (1545×868)
+   Grilla: 4 cols × 3 filas  |  Header ≈ 26%  |  Cada fila ≈ 24%
+   Opción 5 = fila 2 (top 50%), columna 1 (left 0%)
+══════════════════════════════════════════ */
+.ballot-highlight-wrap {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.highlight-op5 {
+    position: absolute;
+    top: 48%;
+    left: 0%;
+    width: 25%;
+    height: 24%;
+    border: 3px solid #7b2fff;
+    border-radius: 4px;
+    pointer-events: none;
+    box-shadow: 0 0 0 3px rgba(123,47,255,0.25);
+    animation: pulsoHighlight 1.4s ease-in-out infinite;
+}
+
+@keyframes pulsoHighlight {
+    0%,100% { box-shadow: 0 0 0 3px rgba(123,47,255,0.25); }
+    50%      { box-shadow: 0 0 0 7px rgba(123,47,255,0.10); }
+}
+
+/* ══════════════════════════════════════════
+   PANEL DE SELECCIÓN (▼ SELECCIONÁ)
+══════════════════════════════════════════ */
+.ballot-seleccion {
+    width: 100%;
+    background: #f4f0ff;
+    border: 2px solid #7b2fff;
+    border-radius: 12px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.selec-flecha {
+    color: #5500cc;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Imagen recortada de la opción (_selec.png) */
+.ballot-img-selec {
+    max-width: 100%;
+    max-height: 175px;
+    object-fit: contain;
+    display: block;
+    border-radius: 6px;
+}
+
+.ballot-img-selec.imprimir {
+    max-height: 100px;
+}
+
+/* ══════════════════════════════════════════
+   PANEL DE CANDIDATO (slide 4 — Fabio)
+══════════════════════════════════════════ */
+.candidato-selec-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    border-radius: 10px;
+    padding: 8px 12px;
+    width: 100%;
+    text-align: left;
+}
+
+.candidato-selec-foto {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    border: 2px solid #7b2fff;
+    flex-shrink: 0;
+}
+
+.candidato-selec-info {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+}
+
+.candidato-selec-info strong { color: #2e008b; font-size: 0.9rem; }
+.candidato-selec-info span   { color: #777; font-size: 0.75rem; }
+
+/* ══════════════════════════════════════════
+   SLIDE FINAL
+══════════════════════════════════════════ */
+.final-candidato-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 10px 18px;
+}
+
+.final-foto {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    border: 2px solid rgba(255,255,255,0.5);
+}
+
+.final-candidato-wrap div {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    font-family: Arial, sans-serif;
+}
+
+.final-candidato-wrap strong { color: white; font-size: 0.95rem; }
+.final-candidato-wrap span   { color: rgba(255,255,255,0.7); font-size: 0.75rem; }
+
+/* ══════════════════════════════════════════
+   BOTONES
+══════════════════════════════════════════ */
+.sim-btn-accion {
+    background: #2e008b;
+    color: white;
+    border: none;
+    padding: 13px 36px;
+    border-radius: 50px;
+    font-family: 'Arial Black', sans-serif;
+    font-size: 0.88rem;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 4px 14px rgba(46,0,139,0.35);
+    width: 100%;
+    max-width: 280px;
+    margin-top: 2px;
+}
+
+.sim-btn-accion:hover  { background: #4500cc; transform: translateY(-2px); }
+.sim-btn-accion:active { transform: scale(0.97); }
+
+.sim-btn-accion.accion-final {
+    background: linear-gradient(135deg, #4500cc, #7b2fff);
+}
+
+.sim-btn-reiniciar {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 2px solid rgba(255,255,255,0.4);
+    padding: 11px 32px;
+    border-radius: 50px;
+    font-family: 'Arial Black', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+.sim-btn-reiniciar:hover { background: rgba(255,255,255,0.25); }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE — MÓVIL
+══════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .contenido-flex    { flex-direction: column; }
+    .candidato-seccion,
+    .seccion-derecha   { width: 100%; text-align: center; align-items: center; }
+    #contador span     { font-size: 1.5rem; }
+    .bloque            { height: 70px; width: 60px; }
+    .foto-candidato    { max-width: 70%; }
+    .nombre            { font-size: 1.6rem; }
+    .cargo             { font-size: 1.2rem; }
+    .ballot-img-selec  { max-height: 130px; }
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE — PC
+══════════════════════════════════════════ */
+@media (min-width: 1024px) {
+    .contenido-flex          { flex-direction: row; justify-content: space-between; align-items: center; }
+    .candidato-seccion       { width: 40%; text-align: left; }
+    .seccion-derecha         { width: 50%; align-items: flex-start; }
+    #contador                { justify-content: flex-start; }
+}

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Fabio Báez - Concejal - Itauguá</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ══════════════════════════════════════
+         LANDING
+    ══════════════════════════════════════ -->
+    <div id="landing" class="pagina-contenedor">
+        <div class="contenido-flex">
+            <div class="candidato-seccion">
+                <img src="img/candidato.png" class="foto-candidato" alt="Fabio Báez">
+                <h2 class="nombre">FABIO BAÉZ</h2>
+                <p class="cargo">CONCEJAL</p>
+                <a href="#" class="boton-votar" onclick="iniciarSimulador(); return false;">SIMULAR VOTO</a>
+            </div>
+            <div class="seccion-derecha">
+                <p class="titulo-superior">FALTAN SOLO:</p>
+                <div id="contador">
+                    <div class="bloque"><span id="dias">00</span><small>DÍAS</small></div>
+                    <div class="bloque"><span id="horas">00</span><small>HORAS</small></div>
+                    <div class="bloque"><span id="minutos">00</span><small>MINUTOS</small></div>
+                    <div class="bloque"><span id="segundos">00</span><small>SEGUNDOS</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SIMULADOR DE VOTO
+    ══════════════════════════════════════ -->
+    <div id="simulador" class="sim-container oculto">
+
+        <div class="sim-barra-progreso">
+            <div class="sim-progreso-fill" id="progresoFill"></div>
+        </div>
+
+        <div class="sim-header">
+            <button class="sim-btn-volver oculto" id="btnVolver" onclick="anteriorPaso()">&#8592; VOLVER</button>
+            <span class="sim-badge-candidato">FABIO BÁEZ &middot; CONCEJAL</span>
+            <div class="sim-paso-label" id="pasoLabel">PASO 1 / 17</div>
+        </div>
+
+        <div class="sim-slides-wrapper" id="simSlides">
+
+            <!-- ── 0: INTRO ── -->
+            <div class="sim-slide activo" data-tipo="intro">
+                <div class="sim-card">
+                    <div class="sim-icono-grande">&#128499;</div>
+                    <h1 class="sim-titulo-hero">¿CÓMO<br>VOTAR?</h1>
+                    <p class="sim-descripcion">Seguí estos pasos para simular el proceso de votación electrónica</p>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">COMENZAR</button>
+                </div>
+            </div>
+
+            <!-- ── 1: INSERTAR BOLETA ── -->
+            <div class="sim-slide" data-tipo="proceso">
+                <div class="sim-card ballot-card">
+                    <div class="sim-numero-circulo">01</div>
+                    <h2 class="sim-titulo">Inserte la boleta en la máquina de votación</h2>
+                    <div class="ballot-bloque">
+                        <img src="img/boletas/insertar_boleta.gif" class="ballot-img-maquina" alt="Máquina de votación">
+                    </div>
+                    <p class="sim-descripcion">Introducí el boletín de voto en la impresora de la máquina.</p>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 2: INTENDENTE → LISTA 3 ── -->
+            <div class="sim-slide" data-tipo="seleccion">
+                <div class="sim-card ballot-card">
+                    <div class="sim-cargo-tag">PARA INTENDENTE MUNICIPAL</div>
+                    <p class="sim-instruccion">Seleccione la <strong>LISTA 3</strong></p>
+                    <div class="ballot-bloque">
+                        <div class="ballot-screen-label">Pantalla de la máquina:</div>
+                        <img src="img/boletas/intendente_itaugua_mayores_g.jpg" class="ballot-img-full" alt="Intendente">
+                    </div>
+                    <div class="ballot-seleccion">
+                        <div class="selec-flecha">&#9660; SELECCIONÁ ESTA OPCIÓN</div>
+                        <img src="img/boletas/intendente_itaugua_mayores_selec.png" class="ballot-img-selec" alt="Lista 3 seleccionada">
+                    </div>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 3: CONCEJAL → LISTA 3L ── -->
+            <div class="sim-slide" data-tipo="seleccion">
+                <div class="sim-card ballot-card">
+                    <div class="sim-cargo-tag">PARA CONCEJAL — JUNTA MUNICIPAL</div>
+                    <p class="sim-instruccion">Seleccione la <strong>LISTA 3L</strong></p>
+                    <div class="ballot-bloque">
+                        <div class="ballot-screen-label">Pantalla de la máquina:</div>
+                        <img src="img/boletas/lista_junta_itaugua_mayores_g.jpg" class="ballot-img-full" alt="Junta Municipal">
+                    </div>
+                    <div class="ballot-seleccion">
+                        <div class="selec-flecha">&#9660; SELECCIONÁ ESTA OPCIÓN</div>
+                        <img src="img/boletas/lista_junta_itaugua_mayores_selec.png" class="ballot-img-selec" alt="Lista 3L seleccionada">
+                    </div>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 4: CONCEJAL → OPCIÓN 5 (FABIO BÁEZ) ── -->
+            <div class="sim-slide" data-tipo="candidato">
+                <div class="sim-card ballot-card">
+                    <div class="sim-cargo-tag destacado">PARA CONCEJAL — OPCIÓN DEL CANDIDATO</div>
+                    <p class="sim-instruccion">Seleccione la <strong>OPCIÓN 5 — FABIO BÁEZ</strong></p>
+                    <div class="ballot-bloque">
+                        <div class="ballot-screen-label">Pantalla de la máquina (Opción 5 resaltada):</div>
+                        <div class="ballot-highlight-wrap">
+                            <img src="img/boletas/opcion_lista_3_junta_itaugua_mayores_g.jpg" class="ballot-img-full" alt="Opciones Concejal">
+                            <div class="highlight-op5"></div>
+                        </div>
+                    </div>
+                    <div class="ballot-seleccion candidato-selec">
+                        <div class="selec-flecha">&#9660; SELECCIONÁ A FABIO BÁEZ</div>
+                        <div class="candidato-selec-box">
+                            <img src="img/candidato.png" class="candidato-selec-foto" alt="Fabio Báez">
+                            <div class="candidato-selec-info">
+                                <strong>FABIO BÁEZ</strong>
+                                <span>Opción 5 &mdash; Lista 3L</span>
+                                <span>Nuevo Liberalismo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 5: PRESIDENTE/VICE → LISTA 3 ── -->
+            <div class="sim-slide" data-tipo="seleccion">
+                <div class="sim-card ballot-card">
+                    <div class="sim-cargo-tag small">PRESIDENTE &middot; VICE 1° Y VICE 2° &middot; PLRA</div>
+                    <p class="sim-instruccion">Seleccione la <strong>LISTA 3</strong></p>
+                    <div class="ballot-bloque">
+                        <div class="ballot-screen-label">Pantalla de la máquina:</div>
+                        <img src="img/boletas/4-presidente_vice_plra_g.jpg" class="ballot-img-full" alt="Presidente">
+                    </div>
+                    <div class="ballot-seleccion">
+                        <div class="selec-flecha">&#9660; SELECCIONÁ ESTA OPCIÓN</div>
+                        <img src="img/boletas/4-presidente_vice_plra_selec.png" class="ballot-img-selec" alt="Lista 3 Presidente">
+                    </div>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 6: DIRECTORIO NACIONAL → LISTA 3 ── -->
+            <div class="sim-slide" data-tipo="seleccion">
+                <div class="sim-card ballot-card">
+                    <div class="sim-cargo-tag">DIRECTORIO NACIONAL</div>
+                    <p class="sim-instruccion">Seleccione la <strong>LISTA 3</strong></p>
+                    <div class="ballot-bloque">
+                        <div class="ballot-screen-label">Pantalla de la máquina:</div>
+                        <img src="img/boletas/5-lista_directorio_g.jpg" class="ballot-img-full" alt="Directorio Nacional">
+                    </div>
+                    <div class="ballot-seleccion">
+                        <div class="selec-flecha">&#9660; SELECCIONÁ ESTA OPCIÓN</div>
+                        <img src="img/boletas/5-lista_directorio_selec.png" class="ballot-img-selec" alt="Lista 3 Directorio">
+                    </div>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 7: DIRECTORIO NACIONAL → OPCIÓN 10 ── -->
+            <div class="sim-slide" data-tipo="seleccion">
+                <div class="sim-card ballot-card">
+                    <div class="sim-cargo-tag">DIRECTORIO NACIONAL</div>
+                    <p class="sim-instruccion">Seleccione la <strong>OPCIÓN 10</strong></p>
+                    <div class="ballot-bloque">
+                        <div class="ballot-screen-label">Pantalla de la máquina:</div>
+                        <img src="img/boletas/6-opcion_directorio_g.jpg" class="ballot-img-full" alt="Opción Directorio">
+                    </div>
+                    <div class="ballot-seleccion">
+                        <div class="selec-flecha">&#9660; SELECCIONÁ ESTA OPCIÓN</div>
+                        <img src="img/boletas/opcion_direc_nac_itaugua_selec.png" class="ballot-img-selec" alt="Opción 10">
+                    </div>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 8: DIRECTORIO DEPARTAMENTAL → LISTA 3 ── -->
+            <div class="sim-slide" data-tipo="seleccion">
+                <div class="sim-card ballot-card">
+                    <div class="sim-cargo-tag">DIRECTORIO DEPARTAMENTAL</div>
+                    <p class="sim-instruccion">Seleccione la <strong>LISTA 3</strong></p>
+                    <div class="ballot-bloque">
+                        <div class="ballot-screen-label">Pantalla de la máquina:</div>
+                        <img src="img/boletas/7-lista_directorio_departamental_g.jpg" class="ballot-img-full" alt="Directorio Departamental">
+                    </div>
+                    <div class="ballot-seleccion">
+                        <div class="selec-flecha">&#9660; SELECCIONÁ ESTA OPCIÓN</div>
+                        <img src="img/boletas/7-lista_directorio_departamental_selec.png" class="ballot-img-selec" alt="Lista 3 Departamental">
+                    </div>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 9: DIRECTORIO DEPARTAMENTAL → OPCIÓN 2 ── -->
+            <div class="sim-slide" data-tipo="seleccion">
+                <div class="sim-card ballot-card">
+                    <div class="sim-cargo-tag">DIRECTORIO DEPARTAMENTAL</div>
+                    <p class="sim-instruccion">Seleccione la <strong>OPCIÓN 2</strong></p>
+                    <div class="ballot-bloque">
+                        <div class="ballot-screen-label">Pantalla de la máquina:</div>
+                        <img src="img/boletas/8-opcion_directorio_departamental_g.jpg" class="ballot-img-full" alt="Opción Departamental">
+                    </div>
+                    <div class="ballot-seleccion">
+                        <div class="selec-flecha">&#9660; SELECCIONÁ ESTA OPCIÓN</div>
+                        <img src="img/boletas/direc_depart_itaugua_selec.png" class="ballot-img-selec" alt="Opción 2 Departamental">
+                    </div>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 10: COMITÉ LOCAL → LISTA 3L ── -->
+            <div class="sim-slide" data-tipo="seleccion">
+                <div class="sim-card ballot-card">
+                    <div class="sim-cargo-tag">COMITÉ LOCAL</div>
+                    <p class="sim-instruccion">Seleccione la <strong>LISTA 3L</strong></p>
+                    <div class="ballot-bloque">
+                        <div class="ballot-screen-label">Pantalla de la máquina:</div>
+                        <img src="img/boletas/comit_local_itaugua_mayores_g.jpg" class="ballot-img-full" alt="Comité Local">
+                    </div>
+                    <div class="ballot-seleccion">
+                        <div class="selec-flecha">&#9660; SELECCIONÁ ESTA OPCIÓN</div>
+                        <img src="img/boletas/comit_local_itaugua_mayores_selec.png" class="ballot-img-selec" alt="Lista 3L Comité">
+                    </div>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 11: COMITÉ LOCAL → OPCIÓN 1 ── -->
+            <div class="sim-slide" data-tipo="seleccion">
+                <div class="sim-card ballot-card">
+                    <div class="sim-cargo-tag">COMITÉ LOCAL</div>
+                    <p class="sim-instruccion">Seleccione la <strong>OPCIÓN 1</strong></p>
+                    <div class="ballot-bloque">
+                        <div class="ballot-screen-label">Pantalla de la máquina:</div>
+                        <img src="img/boletas/opcion_comit_local_itaugua_g.jpg" class="ballot-img-full" alt="Opción Comité">
+                    </div>
+                    <div class="ballot-seleccion">
+                        <div class="selec-flecha">&#9660; SELECCIONÁ ESTA OPCIÓN</div>
+                        <img src="img/boletas/opcion_comit_local_itaugua_selec.png" class="ballot-img-selec" alt="Opción 1 Comité">
+                    </div>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 12: CONVENCIONAL → LISTA 3L ── -->
+            <div class="sim-slide" data-tipo="seleccion">
+                <div class="sim-card ballot-card">
+                    <div class="sim-cargo-tag">CONVENCIONAL</div>
+                    <p class="sim-instruccion">Seleccione la <strong>LISTA 3L</strong></p>
+                    <div class="ballot-bloque">
+                        <div class="ballot-screen-label">Pantalla de la máquina:</div>
+                        <img src="img/boletas/lista_convencional_itaugua_mayores_g.jpg" class="ballot-img-full" alt="Convencional">
+                    </div>
+                    <div class="ballot-seleccion">
+                        <div class="selec-flecha">&#9660; SELECCIONÁ ESTA OPCIÓN</div>
+                        <img src="img/boletas/lista_convencional_itaugua_mayores_selec.png" class="ballot-img-selec" alt="Lista 3L Convencional">
+                    </div>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 13: CONVENCIONAL → OPCIÓN 1 ── -->
+            <div class="sim-slide" data-tipo="seleccion">
+                <div class="sim-card ballot-card">
+                    <div class="sim-cargo-tag">CONVENCIONAL</div>
+                    <p class="sim-instruccion">Seleccione la <strong>OPCIÓN 1</strong></p>
+                    <div class="ballot-bloque">
+                        <div class="ballot-screen-label">Pantalla de la máquina:</div>
+                        <img src="img/boletas/opcion_convencional_itaugua_mayores_g.jpg" class="ballot-img-full" alt="Opción Convencional">
+                    </div>
+                    <div class="ballot-seleccion">
+                        <div class="selec-flecha">&#9660; SELECCIONÁ ESTA OPCIÓN</div>
+                        <img src="img/boletas/opcion_convencional_itaugua_mayores_selec.png" class="ballot-img-selec" alt="Opción 1 Convencional">
+                    </div>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 14: IMPRIMÍ TU VOTO ── -->
+            <div class="sim-slide" data-tipo="proceso">
+                <div class="sim-card ballot-card">
+                    <div class="sim-numero-circulo">02</div>
+                    <h2 class="sim-titulo">IMPRIMÍ TU VOTO</h2>
+                    <div class="ballot-bloque">
+                        <div class="ballot-screen-label">Pantalla de la máquina:</div>
+                        <img src="img/boletas/imprimir_op1.jpg" class="ballot-img-full" alt="Imprimir voto">
+                    </div>
+                    <div class="ballot-seleccion">
+                        <div class="selec-flecha">&#9660; PRESIONÁ ESTE BOTÓN</div>
+                        <img src="img/boletas/imprimir-1.png" class="ballot-img-selec imprimir" alt="Botón imprimir">
+                    </div>
+                    <p class="sim-descripcion">Si en la pantalla se ven los candidatos de tu elección, imprimí tu voto.</p>
+                    <div class="ballot-seleccion candidato-selec">
+                        <div class="selec-flecha">&#9660; VERIFICÁ QUE APAREZCA EN PANTALLA</div>
+                        <div class="candidato-selec-box">
+                            <img src="img/candidato/fabiobaez.png" class="candidato-selec-foto" alt="Fabio Báez" style="background-color:#ffffff;">
+                            <div class="candidato-selec-info">
+                                <strong>FABIO BÁEZ</strong>
+                                <span>Opción 5 &mdash; Lista 3L</span>
+                                <span>Nuevo Liberalismo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 15: VERIFICÁ TU VOTO ── -->
+            <div class="sim-slide" data-tipo="proceso">
+                <div class="sim-card ballot-card">
+                    <div class="sim-numero-circulo">03</div>
+                    <h2 class="sim-titulo">VERIFICÁ TU VOTO</h2>
+                    <div class="ballot-bloque">
+                        <img src="img/boletas/maquina_verificar_p6.png" class="ballot-img-full" alt="Verificar voto">
+                    </div>
+                    <p class="sim-descripcion">Verificá el impreso con lo que aparece en pantalla.</p>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 16: ASEGURÁ EL SECRETO ── -->
+            <div class="sim-slide" data-tipo="proceso">
+                <div class="sim-card ballot-card">
+                    <div class="sim-numero-circulo">04</div>
+                    <h2 class="sim-titulo">ASEGURÁ EL<br>SECRETO DEL VOTO</h2>
+                    <div class="ballot-bloque centrado">
+                        <img src="img/boletas/boleta-troquel.jpg" class="ballot-img-boleta" alt="Boleta">
+                    </div>
+                    <p class="sim-descripcion">Doblá el boletín de manera que se asegure el secreto del voto. Entregá al presidente de mesa para que lo firme.</p>
+                    <button class="sim-btn-accion" onclick="siguientePaso()">CONTINUAR</button>
+                </div>
+            </div>
+
+            <!-- ── 17: ENTINTATE EL DEDO ── -->
+            <div class="sim-slide" data-tipo="proceso">
+                <div class="sim-card">
+                    <div class="sim-numero-circulo">05</div>
+                    <h2 class="sim-titulo">ENTINTATE<br>EL DEDO</h2>
+                    <p class="sim-descripcion">Entintate el dedo índice de la mano derecha. Recibí del presidente de mesa el boletín y depositalo en la urna plástica. Retirá tu cédula de identidad civil.</p>
+                    <button class="sim-btn-accion accion-final" onclick="siguientePaso()">FINALIZAR</button>
+                </div>
+            </div>
+
+            <!-- ── 18: SIMULACIÓN FINALIZADA ── -->
+            <div class="sim-slide" data-tipo="final">
+                <div class="sim-card sim-card-final">
+                    <div class="sim-icono-grande">&#127881;</div>
+                    <h1 class="sim-titulo-hero">SIMULACIÓN<br>FINALIZADA</h1>
+                    <p class="sim-descripcion">No olvides ir a votar, el futuro de tu ciudad está en tus manos.</p>
+                    <div class="final-candidato-wrap">
+                        <img src="img/candidato.png" alt="Fabio Báez" class="final-foto">
+                        <div>
+                            <strong>FABIO BÁEZ</strong>
+                            <span>CONCEJAL &middot; LISTA 3L &middot; OPCIÓN 5</span>
+                        </div>
+                    </div>
+                    <button class="sim-btn-reiniciar" onclick="reiniciarSimulador()">&#8635; REINICIAR</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="json/contador.js"></script>
+</body>
+</html>
